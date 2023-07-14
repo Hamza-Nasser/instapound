@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:instapound/src/core/utils/app_strings.dart';
+import 'package:instapound/src/config/themes/app_theme.dart';
+import 'package:instapound/src/config/themes/dark_theme.dart';
+import 'package:instapound/src/features/auth/presentation/screens/signin/signin.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class Instapound extends StatelessWidget {
+  const Instapound({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text(AppStrings.appName),
-        ),
-      ),
+    return MaterialApp(
+      title: 'Instapound',
+      theme: appTheme(),
+      darkTheme: appDarkTheme(),
+      themeMode: ThemeMode.light,
+      home: const SignInScreen(),
     );
   }
 }

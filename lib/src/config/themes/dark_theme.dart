@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:instapound/src/core/utils/app_colors.dart';
 
-ThemeData appTheme() {
+ThemeData appDarkTheme() {
   return ThemeData(
     // primarySwatch: AppColors.primary,
-    primaryColor: AppColors.primaryAccent,
-    scaffoldBackgroundColor: AppColors.primary,
+    primaryColor: AppColors.primaryDark,
+    // textTheme: const TextTheme(),
+
+    scaffoldBackgroundColor: Colors.black,
     inputDecorationTheme: _inputDecorationTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -22,8 +24,8 @@ ThemeData appTheme() {
 }
 
 InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
-  // fillColor: AppColors.formFieldFillColor,
-  // filled: true,
+  fillColor: AppColors.formFieldFillColorDark,
+  filled: true,
   contentPadding: const EdgeInsets.only(
     left: 10,
   ),
