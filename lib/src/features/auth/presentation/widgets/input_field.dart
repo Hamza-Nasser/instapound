@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:instapound/src/core/utils/app_colors.dart';
 
-class InputFormField extends StatelessWidget {
+class InputFormField extends StatefulWidget {
   const InputFormField(
       {super.key,
       this.decoration,
@@ -13,17 +15,91 @@ class InputFormField extends StatelessWidget {
   final FocusNode? focusNode;
 
   @override
+  State<InputFormField> createState() => _InputFormFieldState();
+}
+
+class _InputFormFieldState extends State<InputFormField> {
+  // final FocusNode widget.focusNode? = FocusNode();
+  Color _fillColor = AppColors.formFieldFillColor;
+  Color _hintTextColor = AppColors.formFieldHintTextColor;
+  late bool isDarkMode;
+
+  // final FocusNode _passwordFocus = FocusNode();
+  // Color _fillColorPassword = AppColors.formFieldFillColor;
+  @override
+  void initState() {
+    super.initState();
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    isDarkMode = brightness == Brightness.dark;
+    initialize(isDarkMode);
+    // initialize();
+  }
+
+  void initialize(bool isDarkMode) {
+
+    if (isDarkMode) {
+      _fillColor = AppColors.formFieldFillColorDark;
+      _hintTextColor = AppColors.formFieldHintTextColorDark;
+      setState(() {});
+    } else {
+      _fillColor = AppColors.formFieldFillColor;
+      _hintTextColor = AppColors.formFieldHintTextColor;
+      setState(() {});
+    }
+
+    if (widget.focusNode != null) {
+      // widget.focusNode = FocusNode();
+      widget.focusNode!.addListener(() {
+        if (widget.focusNode!.hasFocus) {
+          if (isDarkMode) {
+            _fillColor = AppColors.formFieldFillColorDarkFocus;
+            setState(() {});
+          } else {
+            _fillColor = AppColors.formFieldFillColorFocus;
+            // _fillColor = Colors.black;
+            setState(() {});
+          }
+        } else {
+          if (isDarkMode) {
+            _fillColor = AppColors.formFieldFillColorDark;
+            setState(() {});
+          } else {
+            _fillColor = AppColors.formFieldFillColor;
+            // _fillColor = Colors.black;
+            setState(() {});
+          }
+        }
+      });
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
       child: TextFormField(
-        focusNode: focusNode,
+        focusNode: widget.focusNode,
         style: const TextStyle(
           fontSize: 14,
           height: 1.4,
-          // color: AppColors.primary,
         ),
-        decoration: decoration,
+        // decoration: widget.decoration,
+        decoration: InputDecoration(
+          fillColor: _fillColor,
+          filled: true,
+          hintText: widget.hintText,
+          contentPadding: const EdgeInsets.only(
+            left: 10,
+          ),
+          hintStyle: TextStyle(
+            color: _hintTextColor,
+            fontSize: 14,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
     );
   }

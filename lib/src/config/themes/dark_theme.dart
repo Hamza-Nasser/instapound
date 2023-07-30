@@ -29,15 +29,15 @@ InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
   contentPadding: const EdgeInsets.only(
     left: 10,
   ),
-  hintStyle: const TextStyle(
-    color: AppColors.formFieldHintTextColor,
-    fontSize: 14,
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
-  ),
-  labelStyle: const TextStyle(
-    color: AppColors.formFieldTextColor,
-  ),
+  // hintStyle: const TextStyle(
+  //   color: AppColors.formFieldHintTextColor,
+  //   fontSize: 14,
+  //   fontFamily: 'Inter',
+  //   fontWeight: FontWeight.w400,
+  // ),
+  // labelStyle: const TextStyle(
+  //   color: AppColors.formFieldTextColor,
+  // ),
   border: OutlineInputBorder(
     borderSide:
         const BorderSide(color: AppColors.formFieldBorderColor, width: 0.25),

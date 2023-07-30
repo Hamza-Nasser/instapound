@@ -12,7 +12,7 @@ class Instapound extends StatelessWidget {
       title: 'Instapound',
       theme: appTheme(),
       darkTheme: appDarkTheme(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       home: const SignInScreen(),
     );
   }

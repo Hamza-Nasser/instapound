@@ -9,10 +9,14 @@ class AppColors {
   static const Color formFieldFillColor = Color(0xFFFAFAFA); // Light Grey
   static const Color formFieldFillColorFocus = Color(0xFFF6F6F6); // Light Grey
   static const Color formFieldFillColorDark = Color(0xFF121212); // Light Grey
+  static const Color formFieldFillColorDarkFocus =
+      Color(0xFF1E1E1E); // Light Grey
   static const Color formFieldBorderColor = Color(0xFFE0E0E0); // Grey
   static const Color formFieldBorderColorDark = Color(0xFFFFFFFF); // Grey
   static const Color formFieldTextColor = Color(0xFF2D2D2D); // Dark Grey
   static const Color formFieldHintTextColor = Color(0xFF9E9E9E); // Grey
+  static const Color formFieldHintTextColorDark = Color(0x99FFFFFF); // Grey
+
   static const Color formFieldErrorTextColor = Color(0xFFD32F2F); // Red
   static const Color formFieldErrorBorderColor = Color(0xFFD32F2F); // Red
   static const Color link = Color(0xff23244F); // Blue
