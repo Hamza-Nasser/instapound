@@ -37,7 +37,6 @@ class _InputFormFieldState extends State<InputFormField> {
   }
 
   void initialize(bool isDarkMode) {
-
     if (isDarkMode) {
       _fillColor = AppColors.formFieldFillColorDark;
       _hintTextColor = AppColors.formFieldHintTextColorDark;
@@ -74,12 +73,18 @@ class _InputFormFieldState extends State<InputFormField> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
       child: TextFormField(
+        // onTapOutside: (d) => FocusScope.of(context).unfocus,
+        onTapOutside: (event) {
+          if (widget.focusNode!.hasFocus) {
+            widget.focusNode!.unfocus();
+          }
+        },
+        controller: widget.controller,
         focusNode: widget.focusNode,
         style: const TextStyle(
           fontSize: 14,

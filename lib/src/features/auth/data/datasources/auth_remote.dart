@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:instapound/src/core/api/endpoints.dart';
 import 'package:instapound/src/core/error/exceptions.dart';
 import 'package:instapound/src/features/auth/data/models/user_model.dart';
@@ -10,27 +11,43 @@ abstract class AuthRemoteDataSource {
 }
 
 // TODO: implement with firebase
-// TODO: implement with dio package
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+
+@Deprecated('Use Dio instead')
+class AuthRemoteDataSourceImplHttp implements AuthRemoteDataSource {
   final http.Client client;
 
-  AuthRemoteDataSourceImpl({required this.client});
+  AuthRemoteDataSourceImplHttp({required this.client});
   @override
   Future<UserModel> signIn(String email, String password) async {
     final url = Uri.parse(Endpoints.signIn);
-    final body = {
-      "email": email,
-      "password": password,
-    };
-    final http.Response response = await client.post(url, body: body, headers: {
-      "Content-Type": "application/json", // TODO: change this to a constant
-    });
+    final body = {"username": "nassor", "password": "password"};
+
+    final http.Response response = await client.post(url, body: body);
     if (response.statusCode == 200) {
       return UserModel.fromJson(json.decode(response.body));
     } else {
       // throw Exception("Couldn't sign in");
       // throw ServerException(message: "Couldn't sign in");
-      throw ServerException();
+      throw ServerException(message: json.decode(response.body)['message']);
+    }
+  }
+}
+
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  final Dio client;
+
+  AuthRemoteDataSourceImpl({required this.client});
+  @override
+  Future<UserModel> signIn(String email, String password) async {
+    final body = {"username": email, "password": password};
+
+    final Response response = await client.post(Endpoints.signIn, data: body);
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(response.data);
+    } else {
+      // throw Exception("Couldn't sign in");
+      // throw ServerException(message: "Couldn't sign in");
+      throw ServerException(message: response.data['message']);
     }
   }
 }

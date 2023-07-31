@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:instapound/src/core/error/exceptions.dart';
 import 'package:instapound/src/core/error/failure.dart';
 import 'package:instapound/src/core/network/network_info.dart';
+import 'package:instapound/src/core/sealed/result.dart';
 import 'package:instapound/src/features/auth/data/datasources/auth_local.dart';
 import 'package:instapound/src/features/auth/data/datasources/auth_remote.dart';
 import 'package:instapound/src/features/auth/data/models/user_model.dart';
@@ -38,7 +39,8 @@ class AuthRepositoryImpl extends AuthRepository {
   //     }
   //   }
   // }
-
+  @Deprecated(
+      "Use sealed Result class instead. This will be removed in near future")
   @override
   Future<Either<Failure, User>> signIn(String email, String password) async {
     if (await networkInfo.isConnected) {
@@ -48,10 +50,10 @@ class AuthRepositoryImpl extends AuthRepository {
         return Right(user);
       } on ServerException catch (_) {
         // return Left(ServerFailure(message: e.message));
-        return Left(ServerFailure());
+        return const Left(ServerFailure("error"));
       }
     } else {
-      return Left(ServerFailure());
+      return const Left(ServerFailure("error"));
       // return Left(ServerFailure(message: "No internet connection"));
       // try {
       //   final User user = await localDataSource.getLastSavedUser();
@@ -59,6 +61,21 @@ class AuthRepositoryImpl extends AuthRepository {
       // } on CacheException catch (e) {
       //   return Left(CacheFailure(message: e.message));
       // }
+    }
+  }
+
+  @override
+  Future<Result<User, Exception>> signInR(String email, String password) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final UserModel user = await remoteDataSource.signIn(email, password);
+        await localDataSource.cacheUser(user);
+        return SuccessR(user);
+      } on ServerException catch (e) {
+        return FailureR(e);
+      }
+    } else {
+      return const FailureR(ServerException(message: "No internet connection"));
     }
   }
 }

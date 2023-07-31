@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instapound/src/core/utils/app_assets.dart';
 import 'package:instapound/src/core/utils/app_colors.dart';
 import 'package:instapound/src/core/utils/ex_mediaquery_values.dart';
+import 'package:instapound/src/features/auth/presentation/screens/signin/cubit/sign_in_cubit.dart';
 
 import 'package:instapound/src/features/auth/presentation/widgets/input_field.dart';
 
@@ -24,9 +27,15 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final FocusNode _passwordFocus = FocusNode();
   // Color _fillColorPassword = AppColors.formFieldFillColor;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: SystemUiOverlay.values,
@@ -120,6 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     InputFormField(
                       focusNode: _emailFocus,
                       hintText: "Phone number, email or username",
+                      controller: _emailController,
                       // decoration: InputDecoration(
                       //   hintText: "Phone number, email or username",
                       //   fillColor: _fillColorEmail,
@@ -130,6 +140,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     InputFormField(
                       focusNode: _passwordFocus,
                       hintText: "Password",
+                      controller: _passwordController,
                       // decoration: InputDecoration(
                       //   hintText: "Password",
                       //   // filled: true,
@@ -144,12 +155,48 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: const Text("Forgot password?"),
                       ),
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Log In'),
-                      ),
+                    BlocConsumer<SignInCubit, SignInState>(
+                      listener: (context, state) {
+                        if (state is SignInError) {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: const Text("Error"),
+                                content: Text(state.message),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text("OK"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is SignInLoading) {
+                          return const RepaintBoundary(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<SignInCubit>(context).signIn(
+                                  _emailController.text,
+                                  _passwordController.text);
+                            },
+                            child: const Text('Log In'),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 35),
                     TextButton(
