@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,9 +20,9 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final FocusNode _emailFocus = FocusNode();
   // Color _fillColorEmail = AppColors.formFieldFillColor;
-  final bool isDarkMode =
-      SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-          Brightness.dark;
+  // final bool isDarkMode =
+  //     SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+  //         Brightness.dark;
 
   final FocusNode _passwordFocus = FocusNode();
   // Color _fillColorPassword = AppColors.formFieldFillColor;
@@ -56,7 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
         bottomSheet: Container(
           height: 60,
           width: double.infinity,
-          color: isDarkMode ? AppColors.primaryDark : AppColors.primary,
+          color: AppColors.primary,
           child: const Column(
             children: [
               Divider(
@@ -179,11 +178,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                       builder: (context, state) {
                         if (state is SignInLoading) {
-                          return const RepaintBoundary(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          return const SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: null, child: Text("Loading...")),
                           );
+                         
                         }
                         return SizedBox(
                           width: double.infinity,

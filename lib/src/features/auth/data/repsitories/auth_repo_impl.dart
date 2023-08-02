@@ -1,6 +1,4 @@
-import 'package:dartz/dartz.dart';
 import 'package:instapound/src/core/error/exceptions.dart';
-import 'package:instapound/src/core/error/failure.dart';
 import 'package:instapound/src/core/network/network_info.dart';
 import 'package:instapound/src/core/sealed/result.dart';
 import 'package:instapound/src/features/auth/data/datasources/auth_local.dart';
@@ -39,30 +37,30 @@ class AuthRepositoryImpl extends AuthRepository {
   //     }
   //   }
   // }
-  @Deprecated(
-      "Use sealed Result class instead. This will be removed in near future")
-  @override
-  Future<Either<Failure, User>> signIn(String email, String password) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final UserModel user = await remoteDataSource.signIn(email, password);
-        await localDataSource.cacheUser(user);
-        return Right(user);
-      } on ServerException catch (_) {
-        // return Left(ServerFailure(message: e.message));
-        return const Left(ServerFailure("error"));
-      }
-    } else {
-      return const Left(ServerFailure("error"));
-      // return Left(ServerFailure(message: "No internet connection"));
-      // try {
-      //   final User user = await localDataSource.getLastSavedUser();
-      // return Right(user);
-      // } on CacheException catch (e) {
-      //   return Left(CacheFailure(message: e.message));
-      // }
-    }
-  }
+  // @Deprecated(
+  //     "Use sealed Result class instead. This will be removed in near future")
+  // @override
+  // Future<Either<Failure, User>> signIn(String email, String password) async {
+  //   if (await networkInfo.isConnected) {
+  //     try {
+  //       final UserModel user = await remoteDataSource.signIn(email, password);
+  //       await localDataSource.cacheUser(user);
+  //       return Right(user);
+  //     } on ServerException catch (_) {
+  //       // return Left(ServerFailure(message: e.message));
+  //       return const Left(ServerFailure("error"));
+  //     }
+  //   } else {
+  //     return const Left(ServerFailure("error"));
+  //     // return Left(ServerFailure(message: "No internet connection"));
+  //     // try {
+  //     //   final User user = await localDataSource.getLastSavedUser();
+  //     // return Right(user);
+  //     // } on CacheException catch (e) {
+  //     //   return Left(CacheFailure(message: e.message));
+  //     // }
+  //   }
+  // }
 
   @override
   Future<Result<User, Exception>> signInR(String email, String password) async {

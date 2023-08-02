@@ -11,12 +11,12 @@ abstract class AuthLocalDataSource {
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  final Future<SharedPreferences> sharedPreferences;
+  final SharedPreferences sharedPreferences;
 
   AuthLocalDataSourceImpl({required this.sharedPreferences});
   @override
   Future<void> cacheUser(UserModel user) async {
-    final SharedPreferences sharedPreferences = await this.sharedPreferences;
+    // final SharedPreferences sharedPreferences = await this.sharedPreferences;
     final String userJsonString = json.encode(user.toJson());
     final bool done = await sharedPreferences.setString('CACHED_USER',
         userJsonString); // TODO: change this key to a constant value in a constants file
@@ -28,7 +28,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<UserModel> getLastSavedUser() async {
-    final SharedPreferences sharedPreferences = await this.sharedPreferences;
+    // final SharedPreferences sharedPreferences = this.sharedPreferences;
     final String? userJsonString = sharedPreferences.getString('CACHED_USER');
     if (userJsonString != null) {
       return Future.value(UserModel.fromJson(json.decode(userJsonString)));
@@ -39,7 +39,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<bool> deleteUser() async {
-    final SharedPreferences sharedPreferences = await this.sharedPreferences;
+    // final SharedPreferences sharedPreferences = this.sharedPreferences;
     return await sharedPreferences.remove('CACHED_USER');
   }
 }

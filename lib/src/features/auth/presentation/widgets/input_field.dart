@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:instapound/src/core/utils/app_colors.dart';
 
 class InputFormField extends StatefulWidget {
@@ -21,53 +20,53 @@ class InputFormField extends StatefulWidget {
 class _InputFormFieldState extends State<InputFormField> {
   // final FocusNode widget.focusNode? = FocusNode();
   Color _fillColor = AppColors.formFieldFillColor;
-  Color _hintTextColor = AppColors.formFieldHintTextColor;
+  final Color _hintTextColor = AppColors.formFieldHintTextColor;
   late bool isDarkMode;
 
-  // final FocusNode _passwordFocus = FocusNode();
-  // Color _fillColorPassword = AppColors.formFieldFillColor;
+  final FocusNode _passwordFocus = FocusNode();
+  final Color _fillColorPassword = AppColors.formFieldFillColor;
   @override
   void initState() {
     super.initState();
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    isDarkMode = brightness == Brightness.dark;
-    initialize(isDarkMode);
-    // initialize();
+    // var brightness =
+    //     SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    // isDarkMode = brightness == Brightness.dark;
+    // initialize(isDarkMode);
+    initialize();
   }
 
-  void initialize(bool isDarkMode) {
-    if (isDarkMode) {
-      _fillColor = AppColors.formFieldFillColorDark;
-      _hintTextColor = AppColors.formFieldHintTextColorDark;
-      setState(() {});
-    } else {
-      _fillColor = AppColors.formFieldFillColor;
-      _hintTextColor = AppColors.formFieldHintTextColor;
-      setState(() {});
-    }
+  void initialize() {
+    // if (isDarkMode) {
+    //   _fillColor = AppColors.formFieldFillColorDark;
+    //   _hintTextColor = AppColors.formFieldHintTextColorDark;
+    //   setState(() {});
+    // } else {
+    //   _fillColor = AppColors.formFieldFillColor;
+    //   _hintTextColor = AppColors.formFieldHintTextColor;
+    //   setState(() {});
+    // }
 
     if (widget.focusNode != null) {
       // widget.focusNode = FocusNode();
       widget.focusNode!.addListener(() {
         if (widget.focusNode!.hasFocus) {
-          if (isDarkMode) {
-            _fillColor = AppColors.formFieldFillColorDarkFocus;
-            setState(() {});
-          } else {
-            _fillColor = AppColors.formFieldFillColorFocus;
-            // _fillColor = Colors.black;
-            setState(() {});
-          }
+          // if (isDarkMode) {
+          //   _fillColor = AppColors.formFieldFillColorDarkFocus;
+          //   setState(() {});
+          // } else {
+          _fillColor = AppColors.formFieldFillColorFocus;
+          // _fillColor = Colors.black;
+          setState(() {});
+          // }
         } else {
-          if (isDarkMode) {
-            _fillColor = AppColors.formFieldFillColorDark;
-            setState(() {});
-          } else {
-            _fillColor = AppColors.formFieldFillColor;
-            // _fillColor = Colors.black;
-            setState(() {});
-          }
+          // if (isDarkMode) {
+          //   _fillColor = AppColors.formFieldFillColorDark;
+          //   setState(() {});
+          // } else {
+          _fillColor = AppColors.formFieldFillColor;
+          // _fillColor = Colors.black;
+          setState(() {});
+          // }
         }
       });
     }
