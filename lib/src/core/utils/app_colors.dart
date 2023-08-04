@@ -20,4 +20,5 @@ class AppColors {
   static const Color formFieldErrorTextColor = Color(0xFFD32F2F); // Red
   static const Color formFieldErrorBorderColor = Color(0xFFD32F2F); // Red
   static const Color link = Color(0xff23244F); // Blue
+  static const Color grey = Color.fromARGB(255, 240, 240, 240); // Blue
 }

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instapound/src/core/utils/app_assets.dart';
 import 'package:instapound/src/core/utils/app_colors.dart';
-import 'package:instapound/src/core/utils/ex_mediaquery_values.dart';
+import 'package:instapound/src/core/utils/ex/ex_mediaquery_values.dart';
+import 'package:instapound/src/core/utils/ex/string.dart';
 import 'package:instapound/src/features/auth/presentation/screens/signin/cubit/sign_in_cubit.dart';
 
 import 'package:instapound/src/features/auth/presentation/widgets/input_field.dart';
@@ -26,8 +28,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final FocusNode _passwordFocus = FocusNode();
   // Color _fillColorPassword = AppColors.formFieldFillColor;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController(text: "nassor".ifDebugging);
+  final TextEditingController _passwordController =
+      TextEditingController(text: "password".ifDebugging);
 
   @override
   void dispose() {
@@ -115,10 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    // const SizedBox(height: 20),
-
                     SizedBox(height: context.height * 0.1),
-
                     SvgPicture.asset(
                       AppAssets.logo,
                       height: 50,
@@ -129,22 +130,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       focusNode: _emailFocus,
                       hintText: "Phone number, email or username",
                       controller: _emailController,
-                      // decoration: InputDecoration(
-                      //   hintText: "Phone number, email or username",
-                      //   fillColor: _fillColorEmail,
-                      //   filled: true,
-                      // ),
                     ),
                     const SizedBox(height: 12),
                     InputFormField(
                       focusNode: _passwordFocus,
                       hintText: "Password",
                       controller: _passwordController,
-                      // decoration: InputDecoration(
-                      //   hintText: "Password",
-                      //   // filled: true,
-                      //   // // fillColor: _fillColorPassword,
-                      // ),
                     ),
                     // const SizedBox(height: 12),
                     Align(
@@ -156,6 +147,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     BlocConsumer<SignInCubit, SignInState>(
                       listener: (context, state) {
+                        if (state is SignInSuccess) {
+                          context.goNamed('chat');
+                        }
                         if (state is SignInError) {
                           showCupertinoDialog(
                             context: context,
@@ -183,7 +177,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ElevatedButton(
                                 onPressed: null, child: Text("Loading...")),
                           );
-                         
                         }
                         return SizedBox(
                           width: double.infinity,

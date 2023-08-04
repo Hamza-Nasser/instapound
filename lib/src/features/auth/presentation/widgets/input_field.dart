@@ -23,8 +23,8 @@ class _InputFormFieldState extends State<InputFormField> {
   final Color _hintTextColor = AppColors.formFieldHintTextColor;
   late bool isDarkMode;
 
-  final FocusNode _passwordFocus = FocusNode();
-  final Color _fillColorPassword = AppColors.formFieldFillColor;
+  // final FocusNode _passwordFocus = FocusNode();
+  // final Color _fillColorPassword = AppColors.formFieldFillColor;
   @override
   void initState() {
     super.initState();
